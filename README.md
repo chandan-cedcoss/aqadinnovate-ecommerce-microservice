@@ -1,7 +1,7 @@
 # Node.js Microservice for User, Product, Variant, and Order Management
 
 ## Overview
-This is a Node.js microservice-based project built using MySQL, Sequelize, and Express.js. It includes functionality for managing users, products, variants, and orders, with features like role-based authentication, file uploads for bulk operations, and efficient data retrieval through joins. The system also supports multi-language (English and Arabic) data management in the database.
+This is a Node.js microservice-based project built using MySQL, Sequelize, and Express.js. It includes functionality for managing users, products, variants, and orders, with features like role-based authentication, file uploads for bulk operations.
 
 ## Features
 - **User Management**: Create, update, and manage user profiles with roles and authentication using JWT.
@@ -28,10 +28,3 @@ This is a Node.js microservice-based project built using MySQL, Sequelize, and E
 ### Prerequisites
 - Node.js (v14 or higher)
 - MySQL
-
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-repository-url.git
-   cd your-repository-directory
