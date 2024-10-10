@@ -1,8 +1,6 @@
 import { DataTypes } from 'sequelize';
 import dbConnection from '../config/db.js';
 import UserModel from './User.js';
-// import UserAddressModel from './UserAddressModel.js';
-// import UserEducationInfoModel from './UserEducationInfoModel.js';  // If needed for future association
 
 const OrderModel = dbConnection.define(
   'orders',

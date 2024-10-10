@@ -1,5 +1,5 @@
-import ProductModel from '../models/Product.js'; // Ensure this is correct
-import ProductVariantModel from '../models/Variant.js'; // Ensure this is correct
+import ProductModel from '../models/Product.js'; 
+import ProductVariantModel from '../models/Variant.js';
 import csv from 'csv-parser';
 import fs from 'fs';
 
@@ -79,7 +79,6 @@ export const bulkUploadProducts = async (req, res) => {
       .on('data', (data) => results.push(data))
       .on('end', async () => {
           try {
-              // Assuming CSV has headers that match your model fields
               for (const productData of results) {
                   await ProductModel.create(productData);
               }

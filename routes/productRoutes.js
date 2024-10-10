@@ -5,8 +5,8 @@ import {
     updateProduct,
     deleteProduct,
     bulkUploadProducts
-} from '../controllers/productController.js'; // Add .js extension
-import upload from '../middlewares/upload.js'; // Ensure this also has .js
+} from '../controllers/productController.js'; 
+import upload from '../middlewares/upload.js';
 
 const router = express.Router();
 

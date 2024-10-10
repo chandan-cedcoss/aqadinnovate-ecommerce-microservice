@@ -1,16 +1,25 @@
-// controllers/userController.js
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import validatePassword from '../utils/validatePassword.js';
 
 // Register User
 export const registerUser = async (req, res) => {
     const { email, password, name } = req.body;
 
     try {
+        // Check if the email already exists
         const userExists = await User.findOne({ where: { email } });
         if (userExists) return res.status(400).json({ message: 'Email already exists' });
 
+        // Validate password
+        if (!validatePassword(password)) {
+            return res.status(400).json({
+                message: 'Password must be 8-16 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
+            });
+        }
+
+        // Hash the password and create the user
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ email, password: hashedPassword, name });
 
@@ -31,10 +40,10 @@ export const loginUser = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-        // Generate token
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Generate JWT token
+        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: 'Login successful', token }); // Send the token in the response
+        res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
         res.status(500).json({ message: 'Login failed', error });
     }
@@ -59,8 +68,17 @@ export const editUserPassword = async (req, res) => {
     const { password } = req.body;
 
     try {
+        // Validate password
+        if (!validatePassword(password)) {
+            return res.status(400).json({
+                message: 'Password must be 8-16 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.'
+            });
+        }
+
+        // Hash the new password and update
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.update({ password: hashedPassword }, { where: { id } });
+
         res.status(200).json({ message: 'Password updated successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to update password', error });
